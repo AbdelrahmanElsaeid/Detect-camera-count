@@ -1,0 +1,29 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout</title>
+    <link rel="stylesheet" href="{% static 'stylee.css' %}">
+</head>
+<body>
+    {% include 'includes/navebar.html' %}
+
+    <div class="container" id="container" style="margin-top: 100px;">
+        <div class="logout-container">
+            <h2>Logout</h2>
+            <p>Are you sure you want to logout?</p>
+            <form action="{% url 'signOut' %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{% static 'main.js' %}"></script>
+    <script src="{% static 'log_script.js' %}"></script>
+</body>
+</html>

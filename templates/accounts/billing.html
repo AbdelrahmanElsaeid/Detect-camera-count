@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'stylee.css' %}">
+    <title>Update Billing Information</title>
+    <style>
+        h1 {
+            margin-top: 130px;
+            color: #040216;
+        }
+        .userbilling {
+            padding-bottom: 20px;
+            width: 90%;
+            height: 100vh;
+            margin-top: 20px;
+            margin-left: 90px;
+        }
+        form {
+            padding-left: 30px;
+        }
+        .billing-form {
+            width: 700px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .billing-form > label {
+            width: 150px;
+            margin-right: 30px;
+            text-align: right;
+        }
+        .billing-form > input,
+        .billing-form > select {
+            width: calc(100% - 180px);
+            height: 30px;
+            border-radius: 12px;
+            border: 2px solid #3d1856;
+            padding: 4px;
+        }
+        select {
+            width: calc(100% - 180px);
+            height: 30px;
+            border-radius: 10px;
+            border: 1px solid #040416;
+            color: #040416;
+        }
+        button {
+            width: 120px;
+            height: 30px;
+            background-color: #040216;
+            border-radius: 10px;
+            border: 1px solid #9e9595;
+            color: #ffffff;
+            margin-left: 180px;
+        }
+        button:hover {
+            transition: 0.6s;
+            transform: scale(1.2);
+            background-color: #120d40;
+            color: #9e9595;
+            cursor: pointer;
+        }
+        .selector {
+            margin-top: 14px;
+        }
+        .check {
+            display: flex;
+            align-items: center;
+            margin-left: 180px;
+            margin-bottom: 20px;
+        }
+        .check input {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    {% include 'includes/navebar.html' %}
+
+    <h1 style="margin-left: 400px;">Billing Information</h1>
+
+    <div class="userbilling">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="billing-form">
+                <label for="id_type">Type</label>
+                {{ form.type }}
+            </div>
+            <div class="billing-form">
+                <label for="id_name">Company/Personal name</label>
+                {{ form.name }}
+            </div>
+            <div class="billing-form">
+                <label for="id_address">Address</label>
+                {{ form.address }}
+            </div>
+            <div class="billing-form">
+                <label for="id_postal">Postal</label>
+                {{ form.postal }}
+            </div>
+            <div class="billing-form">
+                <label for="id_country">Country</label>
+                {{ form.country }}
+            </div>
+            <div class="billing-form">
+                <label for="id_vat_number">VAT number</label>
+                {{ form.vat_number }}
+            </div>
+            <div class="check">
+                <input type="checkbox" id="no-vat">
+                <label for="no-vat">I do not have a VAT number</label>
+            </div>
+            <br />
+            <div class="billing-form">
+                <button type="submit">Update</button>
+            </div>
+        </form>
+    </div>
+    <script src="{% static 'main.js' %}"></script>
+</body>
+</html>

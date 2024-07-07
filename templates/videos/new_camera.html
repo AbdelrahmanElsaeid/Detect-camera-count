@@ -1,0 +1,327 @@
+{% comment %} {% load static %}
+
+<!DOCTYPE html>
+   <html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+      <link rel="stylesheet" href="{% static 'stylee.css' %}">
+      <style>
+        .userdata {
+            padding-bottom: 20px;
+            width: 100%;
+            height: 100vh;
+            margin-top: 150px;
+            margin-left: 90px;
+        }
+        form {
+            padding-left: 30px;
+        }
+        .hint {
+            font-size: 17px;
+            color: #14062e;
+            margin-bottom: 20px;
+            line-height: 1.9;
+            width: 70%;
+        }
+        .hint p a:hover {
+         opacity: 0.7;
+         text-decoration: underline;
+      }
+        .camdata {
+            width: 50%;
+            display: flex;
+            align-items: center;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        .camdata label {
+            flex: 0 0 100px; /* Adjust the width as needed */
+            padding-right: 10px;
+        }
+        .camdata input {
+            flex: 1;
+            width: 80%;
+            height: 30px;
+            border-radius: 12px;
+            border: 2px solid #3d1856;
+            padding: 4px;
+        }
+        button {
+            width: 120px;
+            height: 30px;
+            background-color: #040216;
+            border-radius: 10px;
+            border: 1px solid #9e9595;
+            margin-left: 230px;
+            color: #ffffff;
+        }
+        button:hover {
+            transition: 0.6s;
+            transform: scale(1.2);
+            background-color: #120d40;
+            color: #9e9595;
+            cursor: pointer;
+        }
+        .iframe-container {
+            margin: auto;
+            width: 80%;
+            
+        }
+        .iframe-container iframe {
+         width: 100%;
+         height: 90vh;
+         border: none;
+      }
+        #camselector{
+         width: 80px;
+         border-radius: 8px;
+         color: #040216;
+         border-color: #040216;
+         margin-top: -90px;
+        }
+        .countarea {
+         width: 20%;
+         height: 20vh;
+         background-color: #a18a8a;
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         align-items: center;
+         margin: auto; 
+         border-radius: 10px;
+         margin-bottom: 20px;
+         margin-top: 15px;
+      }
+      .count {
+         margin-bottom: auto;
+         width: 60%;
+         height: 6vh;
+         text-align: center;
+         color: #040216;
+         background-color: #ede3e3;
+         font-size: 29px;
+         padding: 10px;
+         border-radius: 8px;
+         margin-top: 10px; 
+      }
+      .countarea > button {
+         margin-top: auto;
+         margin-bottom: 10px;
+         width: 70%;
+         margin-left: 0; /* Center the button */
+      }
+       
+    </style>
+      <title>CamLive</title>
+   </head>
+   <body>
+    {% include 'includes/navebar.html' %}
+
+      
+      <div class="userdata">
+        <form action="#" >
+        
+         <div class="hint">
+            <h2>New Camera</h2>
+            Follow These Steps To Add New Camera:
+            <br>
+            <p> - Click The Following Link → <a href="https://rtsp.me/#create"
+                  target="_blank">https://rtsp.me/#create</a></pre>
+               <br>
+            <p> - Enter Your RTSP Command</pre>
+               <br>
+            <p> - Copy The Generated HTML Code</pre>
+            <p> - Enter The Copied HTML Code Down There </pre>
+               <br>
+         </div>
+
+         
+           <div class="camdata"><label for="">Html Code</label><input type="text" id="HtmlCode"></div>
+           <div class="camdata"> <button type="button" id="addHtmlButton">Add By HTML</button></div>
+           <br><label for="">Or</label>
+           <div class="camdata"><label for="">Url</label><input type="text" id="url"></div>
+           
+           <div class="camdata"><button type="button" id="addVideoButton">Add By Url</button></div>
+        </form>
+        <div class="camsllider">
+         <select name="camera" id="camselector">
+            
+         </select>
+        </div>
+       </div>
+       <div class="iframe-container" id="iframeContainer"></div>
+       
+    </div>
+
+   
+<script src="main.js"></script>
+</body>
+</html> {% endcomment %}
+
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'stylee.css' %}">
+    <style>
+        .userdata {
+            padding-bottom: 20px;
+            width: 100%;
+            height: 100vh;
+            margin-top: 150px;
+            margin-left: 90px;
+        }
+        form {
+            padding-left: 30px;
+        }
+        .hint {
+            font-size: 17px;
+            color: #14062e;
+            margin-bottom: 20px;
+            line-height: 1.9;
+            width: 70%;
+        }
+        .hint p a:hover {
+            opacity: 0.7;
+            text-decoration: underline;
+        }
+        .camdata {
+            width: 50%;
+            display: flex;
+            align-items: center;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        .camdata label {
+            flex: 0 0 100px; /* Adjust the width as needed */
+            padding-right: 10px;
+        }
+        .camdata input {
+            flex: 1;
+            width: 80%;
+            height: 30px;
+            border-radius: 12px;
+            border: 2px solid #3d1856;
+            padding: 4px;
+        }
+        .camdata textarea {
+            flex: 1;
+            width: 80%;
+            height: 60px;
+            border-radius: 12px;
+            border: 2px solid #3d1856;
+            padding: 4px;
+        }
+        button {
+            width: 120px;
+            height: 30px;
+            background-color: #040216;
+            border-radius: 10px;
+            border: 1px solid #9e9595;
+            margin-left: 230px;
+            color: #ffffff;
+        }
+        button:hover {
+            transition: 0.6s;
+            transform: scale(1.2);
+            background-color: #120d40;
+            color: #9e9595;
+            cursor: pointer;
+        }
+        .iframe-container {
+            margin: auto;
+            width: 80%;
+        }
+        .iframe-container iframe {
+            width: 100%;
+            height: 90vh;
+            border: none;
+        }
+        #camselector {
+            width: 80px;
+            border-radius: 8px;
+            color: #040216;
+            border-color: #040216;
+            margin-top: -90px;
+        }
+        .countarea {
+            width: 20%;
+            height: 20vh;
+            background-color: #a18a8a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: auto; 
+            border-radius: 10px;
+            margin-bottom: 20px;
+            margin-top: 15px;
+        }
+        .count {
+            margin-bottom: auto;
+            width: 60%;
+            height: 6vh;
+            text-align: center;
+            color: #040216;
+            background-color: #ede3e3;
+            font-size: 29px;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px; 
+        }
+        .countarea > button {
+            margin-top: auto;
+            margin-bottom: 10px;
+            width: 70%;
+            margin-left: 0; /* Center the button */
+        }
+    </style>
+    <title>CamLive</title>
+</head>
+<body>
+    {% include 'includes/navebar.html' %}
+
+    <div class="userdata">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="hint">
+                <h2>New Camera</h2>
+                Follow These Steps To Add New Camera:
+                <br>
+                <p> - Click The Following Link → <a href="https://rtsp.me/#create"
+                        target="_blank">https://rtsp.me/#create</a></pre>
+                <br>
+                <p> - Enter Your RTSP Command</pre>
+                <br>
+                <p> - Copy The Generated HTML Code</pre>
+                <p> - Enter The Copied HTML Code Down There </pre>
+                <br>
+            </div>
+
+            <div class="camdata"><label for="title">Title</label><input type="text" name="title" id="title"></div>
+            <div class="camdata"><label for="html_code">Html Code</label><textarea name="html_code" id="html_code"></textarea></div>
+            <div class="camdata"><label for="cam_url">Url</label><input type="text" name="cam_url" id="cam_url"></div>
+            <div class="camdata"><label for="video">Upload Video</label><input type="file" name="video" id="video"></div>
+
+            <div class="camdata"><button type="submit">Add Camera</button></div>
+        </form>
+    </div>
+
+    <div class="iframe-container" id="iframeContainer"></div>
+    <script src="{% static 'main.js' %}"></script>
+</body>
+</html>

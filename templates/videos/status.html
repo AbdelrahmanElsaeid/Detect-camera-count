@@ -1,0 +1,306 @@
+{% comment %} 
+
+
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'stylee.css' %}">
+    <style>
+        .statusdiv {
+            margin-top: 60px;
+            font-family: serif;
+            padding-left: 30px;
+            letter-spacing: 1px;
+            margin-left: 600px;
+        }
+        p {
+            padding-top: 20px;
+        }
+        span {
+            position: absolute;
+            display: inline-block;
+            margin-top: -18px;
+            margin-left: 120px;
+        }
+        .searcharea {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            margin-left: 625px;
+        }
+        input {
+            flex: 1;
+            width: 40%;
+            height: 30px;
+            border-radius: 12px;
+            border: 2px solid #3d1856;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        button {
+            width: 120px;
+            height: 30px;
+            background-color: #040216;
+            border-radius: 10px;
+            border: 1px solid #9e9595;
+            color: #ffffff;
+            margin-left: 100px;
+        }
+        button:hover {
+            transition: 0.6s;
+            transform: scale(1.2);
+            background-color: #120d40;
+            color: #9e9595;
+            cursor: pointer;
+        }
+        #deleteAll {
+            margin: 20px 0;
+        }
+        .main table {
+            width: 100%;
+            text-align: center;
+            margin: 100px 0;
+        }
+        table th {
+            text-transform: uppercase;
+        }
+        th, td {
+            padding: 5px;
+        }
+        td {
+            border-top: 1px solid #3f3c3c;
+        }
+        #btnscroll {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: #010128e0;
+            color: #fff;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            border-radius: 50px;
+        }
+    </style>
+    <title>CamLive</title>
+</head>
+<body>
+    {% include 'includes/navebar.html' %}
+
+    <div class="statusdiv">
+        <p>Account type: Active</p>
+        <p>Billing period:</p>
+        <span>2024-05-15 - 2024-05-31</span>
+    </div>
+    <div class="searcharea">
+        <form method="GET" action="{% url 'videos:status' %}">
+            <input id="searchkey" type="text" name="q" placeholder="Search..." value="{{ query }}">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <div class="main">
+        <table>
+            <tr>
+                <th>id</th>
+                <th>title</th>
+                <th>count</th>
+                <th>time</th>
+            </tr>
+            <tbody id="tbody">
+                {% for result in results %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ result.title }}</td>
+                    <td>{{ result.count }}</td>
+                    <td>{{ result.date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button id="btnscroll">^</button>
+    </div>
+    <script>
+        // Scroll button functionality
+        window.onscroll = function() {
+            let scrollbtn = document.getElementById('btnscroll');
+            if (window.scrollY >= 400) {
+                scrollbtn.style.display = 'block';
+            } else {
+                scrollbtn.style.display = 'none';
+            }
+        };
+
+        document.getElementById('btnscroll').onclick = function() {
+            window.scroll({
+                top: 0,
+                behavior: "smooth",
+            });
+        };
+    </script>
+    <script src="{% static 'main.js' %}"></script>
+</body>
+</html> {% endcomment %}
+
+
+
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'stylee.css' %}">
+    <style>
+        .statusdiv {
+            margin-top: 60px;
+            font-family: serif;
+            padding-left: 30px;
+            letter-spacing: 1px;
+            margin-left: 600px;
+        }
+        p {
+            padding-top: 20px;
+        }
+        span {
+            position: absolute;
+            display: inline-block;
+            margin-top: -18px;
+            margin-left: 120px;
+        }
+        .searcharea {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            margin-left: 625px;
+        }
+        input {
+            flex: 1;
+            width: 40%;
+            height: 30px;
+            border-radius: 12px;
+            border: 2px solid #3d1856;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        button {
+            width: 120px;
+            height: 30px;
+            background-color: #040216;
+            border-radius: 10px;
+            border: 1px solid #9e9595;
+            color: #ffffff;
+            margin-left: 100px;
+        }
+        button:hover {
+            transition: 0.6s;
+            transform: scale(1.2);
+            background-color: #120d40;
+            color: #9e9595;
+            cursor: pointer;
+        }
+        #deleteAll {
+            margin: 20px 0;
+        }
+        .main table {
+            width: 100%;
+            text-align: center;
+            margin: 100px 0;
+        }
+        table th {
+            text-transform: uppercase;
+        }
+        th, td {
+            padding: 5px;
+        }
+        td {
+            border-top: 1px solid #3f3c3c;
+        }
+        #btnscroll {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: #010128e0;
+            color: #fff;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            border-radius: 50px;
+        }
+    </style>
+    <title>CamLive</title>
+</head>
+<body>
+    {% include 'includes/navebar.html' %}
+
+    <div class="statusdiv">
+        <p>Account type: Active</p>
+        <p>Billing period:</p>
+        <span>2024-05-15 - 2024-05-31</span>
+    </div>
+    <div class="searcharea">
+        <form method="GET" action="{% url 'videos:status' %}">
+            {% comment %} <input id="searchkey" type="text" name="q" placeholder="Search..." value="{{ query }}"> {% endcomment %}
+            <label for="start_date">From:</label>
+            <input id="start_date" type="date" name="start_date" value="{{ start_date }}">
+            <label for="end_date">To:</label>
+            <input id="end_date" type="date" name="end_date" value="{{ end_date }}">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <div class="main">
+        <table>
+            <tr>
+                <th>id</th>
+                <th>title</th>
+                <th>count</th>
+                <th>time</th>
+            </tr>
+            <tbody id="tbody">
+                {% for result in results %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ result.video.title }}</td>
+                    <td>{{ result.count }}</td>
+                    <td>{{ result.date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button id="btnscroll">^</button>
+    </div>
+    <script>
+        // Scroll button functionality
+        window.onscroll = function() {
+            let scrollbtn = document.getElementById('btnscroll');
+            if (window.scrollY >= 400) {
+                scrollbtn.style.display = 'block';
+            } else {
+                scrollbtn.style.display = 'none';
+            }
+        };
+
+        document.getElementById('btnscroll').onclick = function() {
+            window.scroll({
+                top: 0,
+                behavior: "smooth",
+            });
+        };
+    </script>
+    <script src="{% static 'main.js' %}"></script>
+</body>
+</html>

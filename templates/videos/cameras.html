@@ -1,0 +1,145 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'stylee.css' %}">
+    <style>
+        h1 {
+            margin-top: 130px;
+            color: #15072c;
+        }
+        .status-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 10px;
+            margin-top: 100px;
+        }
+        .status-bar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+        .status-bar li {
+            margin: 0 15px;
+            display: flex;
+            align-items: center;
+        }
+        .status-bar span {
+            margin-left: 5px;
+        }
+        .status-bar .number {
+            font-weight: bold;
+            color: rgb(54, 22, 90);
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .button-container button {
+            background-color: #15072c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .button-container button:hover {
+            background-color: #322170;
+        }
+        .video-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px;
+            margin-top: 50px;
+            margin-left: 90px;
+        }
+        .video-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            background-color: #fff;
+        }
+        .video-item video {
+            max-width: 100%;
+            height: auto;
+        }
+        .video-item button {
+            margin-top: 10px;
+            background-color: #15072c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .video-item button:hover {
+            background-color: #322170;
+        }
+        .video-item button.active {
+            background-color: #dc3545;
+        }
+        .video-item button.active:hover {
+            background-color: #c82333;
+        }
+    </style>
+    <title>CamLive</title>
+</head>
+<body>
+    {% include 'includes/navebar.html' %}
+    <div class="status-bar">
+        <ul>
+            <li><span class="number">{{ active_videos_count }}</span><span>Active cameras</span></li>
+            <li><span class="number">{{ videos.count }}</span><span>Total cameras</span></li>
+        </ul>
+    </div>
+    <div class="button-container">
+        <button onclick="navigateToNewPage()">+ New camera</button>
+    </div>
+    <div class="video-list">
+        {% for video in videos %}
+            <div class="video-item">
+                <h2>{{ video.title }}</h2>
+                {% if video.video %}
+                    <video controls>
+                        <source src="{{ video.video.url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                {% endif %}
+                {% if video.cam_url %}
+                    <p>URL: <a href="{{ video.cam_url }}" target="_blank">{{ video.cam_url }}</a></p>
+                {% endif %}
+                {% if video.html_code %}
+                    <div>{{ video.html_code|safe }}</div>
+                {% endif %}
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="video_id" value="{{ video.id }}">
+                    <input type="hidden" name="action" value="{% if video.active %}deactivate{% else %}activate{% endif %}">
+                    <button type="submit" class="{% if video.active %}active{% endif %}">
+                        {% if video.active %}
+                            Deactivate
+                        {% else %}
+                            Activate
+                        {% endif %}
+                    </button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+    <script>
+        function navigateToNewPage() {
+            window.location.href = "{% url 'videos:new-camera' %}";
+        }
+    </script>
+    <script src="{% static 'main.js' %}"></script>
+    <script src="{% static 'log_script.js' %}"></script>
+</body>
+</html>

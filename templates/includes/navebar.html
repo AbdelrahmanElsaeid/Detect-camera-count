@@ -1,0 +1,58 @@
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'stylee.css' %}">
+
+ <header class="header">
+   <nav class="nav container">
+       <div class="nav__data">
+           <a href="{% url 'videos:home' %}" class="nav__logo">
+               <i class="ri-planet-line"></i> CamLive
+           </a>
+           <div class="nav__toggle" id="nav-toggle">
+               <i class="ri-menu-line nav__burger"></i>
+               <i class="ri-close-line nav__close"></i>
+           </div>
+       </div>
+       <div class="nav__menu" id="nav-menu">
+           <ul class="nav__list">
+               <li><a href="{% url 'videos:home' %}" class="nav__link">Home</a></li>
+               <li><a href="{% url 'videos:cameras' %}" class="nav__link">Cameras</a></li>
+               
+               <!-- Account dropdown -->
+               {% if user.is_authenticated %}
+               
+               
+               <li class="dropdown__item">
+                <a href="{% url 'videos:status' %}" class="nav__link">
+                    status 
+                </a>
+               </li>
+               <li class="dropdown__item">
+                <a href="{% url 'userauth:billing_info' %}" class="nav__link">
+                    Billing Information 
+                </a>
+                </li>
+                <li class="dropdown__item">
+                    <a href="{% url 'userauth:profile' %}" class="nav__link">
+                        Profile <i class="ri-user-line"></i>
+                    </a>
+                </li>
+               <li>
+                   <a href="{% url 'userauth:signOut' %}" class="nav__link">Logout</a>
+               </li>
+               {% else %}
+               <li>
+                   <a href="{% url 'userauth:signin' %}" class="nav__link">Login</a>
+               </li>
+               <li>
+                   <a href="{% url 'userauth:register' %}" class="nav__link">Register</a>
+               </li>
+               {% endif %}
+               
+               <li><a href="#" class="nav__link">Contact</a></li>
+           </ul>
+       </div>
+   </nav>
+</header>
+<script src="{% static 'main.js' %}"></script>

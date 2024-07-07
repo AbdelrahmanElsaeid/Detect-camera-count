@@ -1,0 +1,62 @@
+{% comment %} <!-- myapp/templates/video_list.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video List</title>
+</head>
+<body>
+    <h1>Video List</h1>
+    <ul>
+        {% for video in videos %}
+        <li>
+            <h2>{{ video.title }}</h2>
+            <video width="320" height="240" controls>
+                <source src="{{ video.video.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html> {% endcomment %}
+
+
+
+<!-- myapp/templates/video_list.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video List</title>
+    <style>
+        .thumbnail-grid {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .thumbnail-grid img {
+            width: 22%;
+            margin: 1%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Video List</h1>
+    <ul>
+        {% for video in videos %}
+    <h2>{{ video.title }}</h2>
+    <video width="320" height="240" controls>
+        <source src="{{ video.video.url }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="thumbnail-grid">
+        {% for thumbnail in video.thumbnails.all %}
+            <img src="{{ thumbnail.image.url }}" alt="Thumbnail">
+        {% endfor %}
+    </div>
+{% endfor %}
+
+    </ul>
+</body>
+</html>

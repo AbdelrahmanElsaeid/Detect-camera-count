@@ -1,0 +1,65 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sliding Login And Registration Page</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'stylee.css' %}">
+  </head>
+  <body>
+    {% include 'includes/navebar.html' %}
+
+    <div class="container" id="container" style="margin-top: 100px; max-width: 684px;">
+      <div class="form-container sign-up-container">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+        <h2>Sign Up</h2> 
+        <form id="signUpForm" method="post">
+          {% csrf_token %}
+          
+          {{ signUpForm.username.errors }}
+          <input type="text" placeholder="Username" id="username" name="username" value="{{ signUpForm.username.value|default_if_none:'' }}" />
+          
+          {{ signUpForm.email.errors }}
+          <input type="email" placeholder="Email" id="email" name="email" value="{{ signUpForm.email.value|default_if_none:'' }}" />
+          
+          {{ signUpForm.organization.errors }}
+          <input type="text" placeholder="Organization" id="organization" name="organization" value="{{ signUpForm.organization.value|default_if_none:'' }}" />
+          
+          {{ signUpForm.password1.errors }}
+          <input type="password" placeholder="Password" id="signUpPass1" name="password1" />
+          
+          {{ signUpForm.password2.errors }}
+          <input type="password" placeholder="Confirm Password" id="signUpPass2" name="password2" />
+          
+          <button type="submit" name="signUpForm">Sign Up</button>
+        </form>
+      </div>
+    
+      
+      
+      </div>
+    </div>
+    <script src="{% static 'main.js' %}"></script>
+    <script src="{% static 'log_script.js' %}"></script>
+  </body>
+</html>
+
+
+
+ 
