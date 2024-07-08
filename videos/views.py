@@ -96,6 +96,7 @@ def capture_thumbnails(video_path, num_frames=10):
     cap.release()
     return thumbnails
 
+from .utils import process_videos  # Import your utility functions
 
 
 @login_required
@@ -123,6 +124,9 @@ def cameras(request):
                         thumbnail.save()
 
                 # add logic to perform model and save results 
+                # Process frames using your AI model
+                
+            process_videos(q)
 
                 
                         
@@ -185,5 +189,10 @@ def new_cameras(request):
     else:
         form = VideoForm()
     return render(request, 'videos/new_camera.html', {'form': form})
+
+
+
+
+
 
 

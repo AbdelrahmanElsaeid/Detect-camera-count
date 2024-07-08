@@ -16,6 +16,7 @@ class Thumbnail(models.Model):
     video = models.ForeignKey(Video, related_name='thumbnails', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='thumbnails/')
     timestamp = models.CharField(max_length=10)
+    result = models.CharField(max_length=500,null=True, blank=True)
 
 
 
