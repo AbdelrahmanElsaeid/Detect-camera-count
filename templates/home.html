@@ -1,6 +1,6 @@
 {% load static %}
 
-<!DOCTYPE html>
+{% comment %} <!DOCTYPE html>
    <html lang="en">
    <head>
       <meta charset="UTF-8">
@@ -28,4 +28,105 @@
       
          
     
+</html> {% endcomment %}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'stylee.css' %}">
+    <title>CamLive</title>
+</head>
+<style>
+   body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+  }
+  
+  .home {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+      color: #333;
+  }
+  
+  p {
+      line-height: 1.6;
+      color: #666;
+  }
+  
+  .video-container {
+      text-align: center;
+      margin: 20px 0;
+  }
+  
+  video {
+      max-width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+  }
+  
+  .description {
+      margin-top: 20px;
+  }
+  
+  .description ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+  }
+  
+  .description ul li {
+      background: url('https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.svg#check-line') no-repeat left center;
+      padding-left: 30px;
+      margin-bottom: 10px;
+      color: #333;
+  }
+  
+  .description p:last-child {
+      font-weight: bold;
+      color: #333;
+  }
+  
+</style>   
+<body>
+   {% include 'includes/navebar.html' %}
+
+    <div class="container home">
+        <h1 style="margin-left: 520px;   margin-top: 00px;">Welcome to CamLive</h1>
+        <p style="margin-left: 300px;font-size: 20px;">The video below explains how to use the website to link your cameras.</p>
+
+        <div class="video-container">
+            <video controls>
+                <source src="{% static 'home.mp4' %}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="description">
+         <p style="font-size: 20px;color: black; padding-bottom: 30px;">Our website uses AI technology to count the people in your organization and notify you if the count exceeds the allowed limit.</p></p>
+            <p style="font-size: 20px;color: black; padding-bottom: 30px;">Other features include:</p>
+            <ul>
+                <li>Showing a graph of the number of visitors throughout the day.</li>
+                <li>Providing visitor data for each day from the day you link your cam.</li>
+                <li>Allowing you to upload a video from your desk and start counting visitors.</li>
+            </ul>
+            <p>The best thing is that you can monitor your organization, organize crowds, and prevent traffic all at the same time.</p>
+        </div>
+    </div>
+
+    <script src="{% static 'main.js' %}"></script>
+</body>
 </html>
