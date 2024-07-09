@@ -9,6 +9,7 @@ class Video(models.Model):
     html_code = models.CharField(max_length=500,null=True, blank=True)
     cam_url = models.CharField(max_length=500,null=True, blank=True)
     active = models.BooleanField(default=False)
+    num_people_limit = models.IntegerField()
 
     
 

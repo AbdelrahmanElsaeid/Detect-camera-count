@@ -8,51 +8,9 @@ from django.core.files.images import ImageFile
 from django.contrib.auth.decorators import login_required
 from django.utils.dateparse import parse_datetime
 from django.contrib import messages
+from .utils import process_videos  
+from django.utils import timezone
 
-
-
-
-
-# def capture_thumbnails(video_path, num_frames=10):
-#     cap = cv2.VideoCapture(video_path)
-#     frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-#     frame_interval = frame_count // num_frames
-
-#     thumbnails = []
-#     for i in range(num_frames):
-#         cap.set(cv2.CAP_PROP_POS_FRAMES, i * frame_interval)
-#         ret, frame = cap.read()
-#         if ret:
-#             filename = f"{os.path.basename(video_path).split('.')[0]}_frame{i}.jpg"
-#             image_path = os.path.join('media/thumbnails', filename)
-#             cv2.imwrite(image_path, frame)
-#             thumbnails.append(image_path)
-#     cap.release()
-#     return thumbnails
-
-
-
-# def upload_video(request):
-#     if request.method == 'POST':
-#         form = VideoForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             video_instance = form.save()
-#             video_path = video_instance.video.path
-#             thumbnail_paths = capture_thumbnails(video_path)
-#             for thumbnail_path in thumbnail_paths:
-#                 with open(thumbnail_path, 'rb') as f:
-#                     thumbnail = Thumbnail(video=video_instance)
-#                     thumbnail.image.save(os.path.basename(thumbnail_path), ImageFile(f), save=False)
-#                     thumbnail.save()
-#             return redirect('videos:video_list')
-#     else:
-#         form = VideoForm()
-#     return render(request, 'videos/upload_video.html', {'form': form})
-
-
-# def video_list(request):
-#     videos = Video.objects.all()
-#     return render(request, 'videos/video_list.html', {'videos': videos})
 
 
 
@@ -96,7 +54,7 @@ def capture_thumbnails(video_path, num_frames=10):
     cap.release()
     return thumbnails
 
-from .utils import process_videos  # Import your utility functions
+
 
 
 @login_required
@@ -125,19 +83,34 @@ def cameras(request):
 
                 # add logic to perform model and save results 
                 # Process frames using your AI model
-                
-            process_videos(q)
 
-                
-                        
-                    
+                process_videos(q)
 
+                # update conut in status 
+                thumbnails = q.thumbnails.all()
+                results = [int(thumbnail.result)  for thumbnail in thumbnails]
+        
+                # Calculate the sum of the results
+                total_result = sum(results)
 
+                camera_status, created = CameraStatus.objects.get_or_create(
+                    video=q,
+                    title=q.title,
+                    count=total_result,
+                    date=timezone.now(),
+                )
+
+                if total_result > q.num_people_limit:
+                    messages.error(request, f'The number of people ({total_result}) is more than the permissible limit ({q.num_people_limit})')
+            return redirect('videos:status')
+            
+            
+                                        
         elif action == 'deactivate':
             q.active = False
             q.save()
 
-        return redirect('videos:cameras')
+            return redirect('videos:cameras')
     return render(request, 'videos/cameras.html', {'videos': videos, 'active_videos_count': active_videos_count})
 
 
@@ -193,6 +166,23 @@ def new_cameras(request):
 
 
 
+
+
+
+@login_required
+def camera_detail(request, id):
+    video = get_object_or_404(Video, id=id)
+    thumbnails = video.thumbnails.all()
+
+    timestamps = [thumbnail.timestamp for thumbnail in thumbnails]
+    results = [thumbnail.result for thumbnail in thumbnails]
+
+    context = {
+        'timestamps': timestamps,
+        'results': results,
+    }
+
+    return render(request, 'videos/camera_detail.html', context)
 
 
 

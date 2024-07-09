@@ -1,0 +1,76 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'stylee.css' %}">
+  <title>CamLive</title>
+  <style>
+    .chart-container {
+        width: 60%; /* Set the width as a percentage or fixed value */
+        height: 400px; /* Set the height as a fixed value */
+        margin: auto; /* Center the chart */
+    }
+</style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+  
+  {% include 'includes/navebar.html' %}
+
+  {% comment %} <h3>{{ timestamps|safe }}</h3>
+  <h3>{{ results|safe }}</h3> {% endcomment %}
+
+  <div class="chart-container">
+    {% comment %} <canvas id="myChart"></canvas> {% endcomment %}
+    <canvas id="myChart" style="display: block; box-sizing: border-box; height: 400px; width: 800px;align-items: center;margin-left: 100px;margin-top: 100px;" width="1000" height="500"></canvas>
+
+</div>
+
+
+  
+   
+  
+  <script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var timestamps = {{ timestamps|safe }};
+    var results = {{ results|safe }};
+    var chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: timestamps,
+            datasets: [{
+                label: 'Results over Time',
+                data: results,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                fill: false,
+                tension: 0.1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Timestamp'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Result'
+                    }
+                }
+            }
+        }
+    });
+</script>
+  
+  <script src="{% static 'main.js' %}"></script>
+</body>
+</html>
